@@ -13,7 +13,7 @@
 TaskManager task_manager;
 std::unique_ptr<WifiBlinkLed> wifi_blink_led;
 std::unique_ptr<WiFiClient> wifi_client;
-logger_t logger = LOGGER("main");
+logger_t logger = LOGGER("iot-esp-fire-alert");
 WiFiUDP udp;
 
 void setup_collect_publish_task();
@@ -40,10 +40,14 @@ void setup() {
 template<typename T>
 bool publish_via_udp(T value) {
     if (udp.beginPacket(UDP_SERVER_HOSTNAME, UDP_SERVER_PORT)) {
-        udp.write(value);
-        udp.endPacket();
-        return true;
+        size_t bytes_written = udp.write(String(value).c_str());
+        bool end_packet_success = udp.endPacket();
+        logger("Published value to the UDP server: " + String(value) +
+               ". Bytes written: " + String(bytes_written) + ". End packet success: "
+               + String(end_packet_success));
+        return end_packet_success && bytes_written > 0;
     } else {
+        logger("Failed to begin UDP packet");
         return false;
     }
 }
@@ -52,7 +56,7 @@ void setup_collect_publish_task() {
     const uint8_t PIR_PIN = D7;
     const uint8_t PIR_BLINKING_LED_PIN = D6;
 
-    BlinkingLed* pir_blinking_led = new BlinkingLed(PIR_BLINKING_LED_PIN, HIGH, LOW);
+    BlinkingLed *pir_blinking_led = new BlinkingLed(PIR_BLINKING_LED_PIN, HIGH, LOW);
 
     pinMode(PIR_PIN, INPUT);
 
