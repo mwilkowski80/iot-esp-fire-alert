@@ -1,0 +1,13 @@
+//
+// Created by mw on 03.11.22.
+//
+
+#ifndef _H_PRIVATESETTINGS
+#define _H_PRIVATESETTINGS
+
+#define RP_WIFI_SSID "ssid"
+#define RP_WIFI_PASSWORD "password"
+#define UDP_SERVER_HOSTNAME "hostname"
+#define UDP_SERVER_PORT 12345
+
+#endif

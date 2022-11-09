@@ -1,0 +1,17 @@
+.pio
+.pioenvs
+.piolibdeps
+CMakeListsPrivate.txt
+src/PrivateSettings.cpp
+src/PrivateSettings.h
+/venv
+/.idea
+*.iml
+cmake-build-*/
+/CMakeFiles
+/CMakeLists.txt
+/CMakeCache.txt
+/remote_wol.cbp
+/Makefile
+/cmake_install.cmake
+/.env
